@@ -12,7 +12,7 @@ describe('effect', () => {
     })
 
     expect(newAge).toBe(11)
-    // age.age++
-    // expect(newAge).toBe(12)
+    age.age++
+    expect(newAge).toBe(12)
   })
 })
