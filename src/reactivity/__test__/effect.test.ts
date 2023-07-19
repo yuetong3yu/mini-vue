@@ -15,4 +15,21 @@ describe('effect', () => {
     age.age++
     expect(newAge).toBe(12)
   })
+
+  describe('effect should return a runner, and when the runner execute, it would return whatever pass-in function returns', () => {
+    const foo = { foo: 1 }
+
+    const runner = effect(() => {
+      foo.foo++
+    })
+
+    it('effect should execute once', () => {
+      expect(foo.foo).toBe(2)
+    })
+
+    it('when run runner function, should update foo', () => {
+      runner()
+      expect(foo.foo).toBe(3)
+    })
+  })
 })

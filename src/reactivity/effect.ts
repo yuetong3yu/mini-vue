@@ -8,7 +8,7 @@ class ReactiveEffect {
 
   run() {
     activeEffect = this
-    this._fn()
+    return this._fn()
   }
 }
 
@@ -43,4 +43,6 @@ export function effect(fn) {
   const reactiveEffect = new ReactiveEffect(fn)
 
   reactiveEffect.run()
+
+  return reactiveEffect.run.bind(reactiveEffect)
 }
