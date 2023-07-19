@@ -2,7 +2,7 @@ let activeEffect: ReactiveEffect | null
 class ReactiveEffect {
   private readonly _fn: Function
 
-  constructor(fn) {
+  constructor(fn, public schedular) {
     this._fn = fn
   }
 
@@ -35,12 +35,17 @@ export function trigger(target, key) {
   const depMap = targetMap.get(key)
 
   for (const fn of depMap) {
-    fn.run()
+    if (fn.schedular) {
+      fn.schedular()
+    } else {
+      fn.run()
+    }
   }
 }
 
-export function effect(fn) {
-  const reactiveEffect = new ReactiveEffect(fn)
+export function effect(fn, options: any = {}) {
+  const schedular = options?.schedular
+  const reactiveEffect = new ReactiveEffect(fn, schedular)
 
   reactiveEffect.run()
 

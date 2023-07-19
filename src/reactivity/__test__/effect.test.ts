@@ -33,3 +33,28 @@ describe('effect', () => {
     })
   })
 })
+
+describe('schedular', () => {
+  it('happy path', () => {
+    let run
+    let dummy
+    const schedular = jest.fn(() => {
+      run = runner
+    })
+    const foo = reactive({ foo: 1 })
+    const runner = effect(
+      () => {
+        dummy = foo.foo
+      },
+      { schedular }
+    )
+
+    expect(schedular).not.toHaveBeenCalled()
+    expect(dummy).toBe(1)
+    foo.foo++
+    expect(schedular).toBeCalledTimes(1)
+    expect(dummy).toBe(1)
+    run()
+    expect(dummy).toBe(2)
+  })
+})
