@@ -1,3 +1,5 @@
+import { extend } from '../shared'
+
 let activeEffect: ReactiveEffect | null
 class ReactiveEffect {
   private readonly _fn: Function
@@ -65,7 +67,7 @@ export function effect(fn, options: any = {}) {
   const schedular = options?.schedular
   const reactiveEffect = new ReactiveEffect(fn, schedular)
   // assign to reactiveEffect
-  Object.assign(reactiveEffect, options)
+  extend(reactiveEffect, options)
 
   reactiveEffect.run()
 
