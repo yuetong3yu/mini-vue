@@ -62,10 +62,10 @@ export function trigger(target, key) {
 }
 
 export function effect(fn, options: any = {}) {
-  const onStop = options?.onStop
   const schedular = options?.schedular
   const reactiveEffect = new ReactiveEffect(fn, schedular)
-  reactiveEffect.onStop = onStop
+  // assign to reactiveEffect
+  Object.assign(reactiveEffect, options)
 
   reactiveEffect.run()
 
