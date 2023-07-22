@@ -75,4 +75,19 @@ describe('stop', () => {
     runner()
     expect(dummy).toBe(3)
   })
+
+  it('call stop multiple times', () => {
+    let dummy
+    const obj = reactive({ foo: 1 })
+    const runner = effect(() => {
+      dummy = obj.foo
+    })
+    expect(dummy).toBe(1)
+    stop(runner)
+    obj.foo = 2
+    expect(dummy).toBe(1)
+    stop(runner)
+    runner()
+    expect(dummy).toBe(2)
+  })
 })

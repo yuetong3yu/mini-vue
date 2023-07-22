@@ -2,6 +2,7 @@ let activeEffect: ReactiveEffect | null
 class ReactiveEffect {
   private readonly _fn: Function
   deps: Set<any>[] = []
+  isCleanup: boolean = false
 
   constructor(fn, public schedular) {
     this._fn = fn
@@ -13,10 +14,17 @@ class ReactiveEffect {
   }
 
   stop() {
-    this.deps.forEach((dep) => {
-      dep.delete(this)
-    })
+    if (!this.isCleanup) {
+      cleanupEffect(this)
+      this.isCleanup = true
+    }
   }
+}
+
+function cleanupEffect(reactiveEffect) {
+  reactiveEffect.deps.forEach((dep) => {
+    dep.delete(reactiveEffect)
+  })
 }
 
 const globalTargetMaps = new Map()
