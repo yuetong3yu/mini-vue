@@ -1,5 +1,5 @@
 import { reactive } from '../reactive'
-import { effect } from '../effect'
+import { effect, stop } from '../effect'
 
 describe('effect', () => {
   it('happy path', () => {
@@ -56,5 +56,23 @@ describe('schedular', () => {
     expect(dummy).toBe(1)
     run()
     expect(dummy).toBe(2)
+  })
+})
+
+describe('stop', () => {
+  it('happy path', () => {
+    let dummy
+    const obj = reactive({ foo: 1 })
+    const runner = effect(() => {
+      dummy = obj.foo
+    })
+    expect(dummy).toBe(1)
+    obj.foo = 2
+    expect(dummy).toBe(2)
+    stop(runner)
+    obj.foo = 3
+    expect(dummy).toBe(2)
+    runner()
+    expect(dummy).toBe(3)
   })
 })
