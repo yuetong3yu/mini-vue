@@ -91,3 +91,17 @@ describe('stop', () => {
     expect(dummy).toBe(2)
   })
 })
+
+describe('onStop handler', () => {
+  it('should be called when stop be called', () => {
+    const onStop = jest.fn(() => {})
+    const runner = effect(
+      () => {
+        console.log('hello world')
+      },
+      { onStop }
+    )
+    stop(runner)
+    expect(onStop).toBeCalledTimes(1)
+  })
+})

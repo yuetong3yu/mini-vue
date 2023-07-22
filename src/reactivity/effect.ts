@@ -3,6 +3,7 @@ class ReactiveEffect {
   private readonly _fn: Function
   deps: Set<any>[] = []
   isCleanup: boolean = false
+  onStop?: () => void
 
   constructor(fn, public schedular) {
     this._fn = fn
@@ -16,6 +17,7 @@ class ReactiveEffect {
   stop() {
     if (!this.isCleanup) {
       cleanupEffect(this)
+      if (this.onStop) this.onStop()
       this.isCleanup = true
     }
   }
@@ -60,8 +62,10 @@ export function trigger(target, key) {
 }
 
 export function effect(fn, options: any = {}) {
+  const onStop = options?.onStop
   const schedular = options?.schedular
   const reactiveEffect = new ReactiveEffect(fn, schedular)
+  reactiveEffect.onStop = onStop
 
   reactiveEffect.run()
 
