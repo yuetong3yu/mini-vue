@@ -95,12 +95,7 @@ describe('stop', () => {
 describe('onStop handler', () => {
   it('should be called when stop be called', () => {
     const onStop = jest.fn(() => {})
-    const runner = effect(
-      () => {
-        console.log('hello world')
-      },
-      { onStop }
-    )
+    const runner = effect(() => {}, { onStop })
     stop(runner)
     expect(onStop).toBeCalledTimes(1)
   })
