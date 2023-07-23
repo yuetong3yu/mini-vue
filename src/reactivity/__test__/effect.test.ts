@@ -1,4 +1,4 @@
-import { reactive } from '../reactive'
+import { reactive, readonly } from '../reactive'
 import { effect, stop } from '../effect'
 
 describe('effect', () => {
@@ -103,5 +103,15 @@ describe('onStop handler', () => {
     )
     stop(runner)
     expect(onStop).toBeCalledTimes(1)
+  })
+})
+
+describe('readonly', () => {
+  it('should return a new object, with same property values', () => {
+    const obj = { foo: 1, buz: { tip: 2 } }
+    const readonlyProperty = readonly(obj)
+    expect(readonlyProperty).not.toBe(obj)
+    expect(readonlyProperty.foo).toBe(1)
+    expect(readonlyProperty.buz.tip).toBe(2)
   })
 })
