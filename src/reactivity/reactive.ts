@@ -1,7 +1,7 @@
 import { track, trigger } from './effect'
 
 function createGetter(isReadonly = false) {
-  return function get(target, key) {
+  return (target, key) => {
     const res = Reflect.get(target, key)
     if (!isReadonly) {
       track(target, key)
