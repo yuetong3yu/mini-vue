@@ -1,5 +1,9 @@
 import { track, trigger } from './effect'
 
+const baseGet = createGetter()
+const baseSet = createSetter()
+const readonlyGet = createGetter(true)
+
 function createGetter(isReadonly = false) {
   return (target, key) => {
     const res = Reflect.get(target, key)
@@ -19,12 +23,12 @@ function createSetter() {
 }
 
 export const baseHandlers = {
-  get: createGetter(),
-  set: createSetter(),
+  get: baseGet,
+  set: baseSet,
 }
 
 export const readonlyHandlers = {
-  get: createGetter(true),
+  get: readonlyGet,
   set(target, key, value) {
     return true
   },
