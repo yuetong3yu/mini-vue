@@ -10,14 +10,18 @@ function createGetter(isReadonly = false) {
   }
 }
 
+function createSetter() {
+  return (target, key, value) => {
+    const res = Reflect.set(target, key, value)
+    trigger(target, key)
+    return res
+  }
+}
+
 export function reactive(raw) {
   return new Proxy(raw, {
     get: createGetter(),
-    set(target, key, value) {
-      const res = Reflect.set(target, key, value)
-      trigger(target, key)
-      return res
-    },
+    set: createSetter(),
   })
 }
 
