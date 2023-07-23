@@ -109,4 +109,13 @@ describe('readonly', () => {
     expect(readonlyProperty.foo).toBe(1)
     expect(readonlyProperty.buz.tip).toBe(2)
   })
+
+  it('when set value to readonly object, should get warning', () => {
+    console.warn = jest.fn()
+
+    const obj = readonly({ foo: 1 })
+    obj.foo = 2
+    expect(console.warn).toHaveBeenCalled()
+    expect(console.warn).toHaveBeenCalledTimes(1)
+  })
 })

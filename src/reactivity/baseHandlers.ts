@@ -30,6 +30,7 @@ export const baseHandlers = {
 export const readonlyHandlers = {
   get: readonlyGet,
   set(target, key, value) {
+    console.warn(`Can not set ${value} to a readonly object - ${key}`)
     return true
   },
 }
