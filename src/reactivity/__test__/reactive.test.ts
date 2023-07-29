@@ -20,4 +20,18 @@ describe('reactive', () => {
     const reactiveObj = reactive({})
     expect(isReactive(reactiveObj)).toBe(true)
   })
+
+  it('nested reactive', () => {
+    const complexObj = {
+      foo: {
+        bar: 1,
+      },
+      fizz: [1],
+    }
+
+    const reactiveObj = reactive(complexObj)
+    expect(isReactive(reactiveObj)).toBe(true)
+    expect(isReactive(reactiveObj.foo)).toBe(true)
+    expect(isReactive(reactiveObj.fizz)).toBe(true)
+  })
 })
