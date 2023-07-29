@@ -69,11 +69,18 @@ describe('stop', () => {
     expect(dummy).toBe(1)
     obj.foo = 2
     expect(dummy).toBe(2)
+
+    // stop logic
     stop(runner)
     obj.foo = 3
     expect(dummy).toBe(2)
+    obj.foo++
+    expect(dummy).toBe(2)
+
+    // runner should update values
+    obj.foo = 9
     runner()
-    expect(dummy).toBe(3)
+    expect(dummy).toBe(9)
   })
 
   it('call stop multiple times', () => {

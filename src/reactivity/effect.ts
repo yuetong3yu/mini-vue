@@ -1,6 +1,8 @@
 import { extend } from '../shared'
 
 let activeEffect: ReactiveEffect | null
+let shouldTrack: boolean | null
+
 class ReactiveEffect {
   private readonly _fn: Function
   deps: Set<any>[] = []
@@ -12,8 +14,16 @@ class ReactiveEffect {
   }
 
   run() {
+    if (this.isCleanup) {
+      return this._fn()
+    }
+
+    shouldTrack = true
     activeEffect = this
-    return this._fn()
+
+    const res = this._fn()
+    shouldTrack = false
+    return res
   }
 
   stop() {
@@ -47,6 +57,7 @@ export function track(target, key) {
   }
 
   if (!activeEffect) return
+  if (!shouldTrack) return
 
   depsSet.add(activeEffect)
   activeEffect?.deps.push(depsSet)
