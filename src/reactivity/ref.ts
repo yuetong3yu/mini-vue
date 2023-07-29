@@ -1,3 +1,4 @@
+import { hasChanged } from '../shared'
 import { trackEffects, triggerEffects } from './effect'
 
 class RefImpl {
@@ -15,7 +16,7 @@ class RefImpl {
   }
 
   set value(newValue) {
-    if (Object.is(newValue, this._val)) return
+    if (!hasChanged(newValue, this._val)) return
 
     this._val = newValue
     triggerEffects(this.deps)
