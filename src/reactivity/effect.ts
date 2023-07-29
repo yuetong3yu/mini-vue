@@ -58,8 +58,14 @@ export function track(target, key) {
     targetMap.set(key, depsSet)
   }
 
-  depsSet.add(activeEffect)
-  activeEffect?.deps.push(depsSet)
+  trackEffects(depsSet)
+}
+
+export function trackEffects(dep: Set<any>) {
+  if (dep.has(activeEffect)) return
+
+  dep.add(activeEffect)
+  activeEffect?.deps.push(dep)
 }
 
 function isTracking() {
@@ -68,9 +74,13 @@ function isTracking() {
 
 export function trigger(target, key) {
   const targetMap = globalTargetMaps.get(target)
-  const depMap = targetMap.get(key)
+  const depSet = targetMap.get(key)
 
-  for (const fn of depMap) {
+  triggerEffects(depSet)
+}
+
+export function triggerEffects(dep: Set<any>) {
+  for (const fn of dep) {
     if (fn.schedular) {
       fn.schedular()
     } else {
