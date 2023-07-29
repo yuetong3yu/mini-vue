@@ -26,4 +26,18 @@ describe('readonly', () => {
     const readonlyObj = readonly(obj)
     expect(isReadonly(readonlyObj)).toBe(true)
   })
+
+  it('nested isReadonly', () => {
+    const complexObj = {
+      foo: {
+        bar: 1,
+      },
+      array: [1],
+    }
+
+    const readonlyObj = readonly(complexObj)
+    expect(isReadonly(readonlyObj)).toBe(true)
+    expect(isReadonly(readonlyObj.foo)).toBe(true)
+    expect(isReadonly(readonlyObj.array)).toBe(true)
+  })
 })
