@@ -43,6 +43,8 @@ function cleanupEffect(reactiveEffect) {
 
 const globalTargetMaps = new Map()
 export function track(target, key) {
+  if (!isTracking()) return
+
   let targetMap: Map<Object, Set<any>> | undefined =
     globalTargetMaps.get(target)
   if (!targetMap) {
@@ -56,11 +58,12 @@ export function track(target, key) {
     targetMap.set(key, depsSet)
   }
 
-  if (!activeEffect) return
-  if (!shouldTrack) return
-
   depsSet.add(activeEffect)
   activeEffect?.deps.push(depsSet)
+}
+
+function isTracking() {
+  return shouldTrack && activeEffect !== undefined
 }
 
 export function trigger(target, key) {
