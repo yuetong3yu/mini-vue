@@ -25,8 +25,8 @@ describe('ref', () => {
     expect(dummy).toBe(2)
     expect(effectCallTimes).toBe(2)
     // if update to the same value, won't trigger
-    // refValue.value = 2
-    // expect(dummy).toBe(2)
-    // expect(effectCallTimes).toBe(2)
+    refValue.value = 2
+    expect(dummy).toBe(2)
+    expect(effectCallTimes).toBe(2)
   })
 })

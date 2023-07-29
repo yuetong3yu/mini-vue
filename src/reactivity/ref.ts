@@ -15,8 +15,9 @@ class RefImpl {
   }
 
   set value(newValue) {
-    this._val = newValue
+    if (Object.is(newValue, this._val)) return
 
+    this._val = newValue
     triggerEffects(this.deps)
   }
 }
