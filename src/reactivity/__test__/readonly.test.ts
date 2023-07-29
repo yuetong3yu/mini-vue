@@ -1,4 +1,4 @@
-import { isReadonly, readonly } from '../reactive'
+import { isReadonly, readonly, shallowReadonly } from '../reactive'
 
 describe('readonly', () => {
   it('should return a new object, with same property values', () => {
@@ -39,5 +39,18 @@ describe('readonly', () => {
     expect(isReadonly(readonlyObj)).toBe(true)
     expect(isReadonly(readonlyObj.foo)).toBe(true)
     expect(isReadonly(readonlyObj.array)).toBe(true)
+  })
+})
+
+describe('shallowReadonly', () => {
+  it('only first level should be readonly', () => {
+    const obj = {
+      foo: {
+        bar: 1,
+      },
+    }
+    const readonlyObj = shallowReadonly(obj)
+    expect(isReadonly(readonlyObj)).toBe(true)
+    expect(isReadonly(readonlyObj.foo)).toBe(false)
   })
 })
