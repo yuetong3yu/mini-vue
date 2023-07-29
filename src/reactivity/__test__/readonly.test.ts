@@ -1,4 +1,4 @@
-import { readonly } from '../reactive'
+import { isReadonly, readonly } from '../reactive'
 
 describe('readonly', () => {
   it('should return a new object, with same property values', () => {
@@ -16,5 +16,14 @@ describe('readonly', () => {
     obj.foo = 2
     expect(console.warn).toHaveBeenCalled()
     expect(console.warn).toHaveBeenCalledTimes(1)
+  })
+
+  it('isReadonly', () => {
+    const obj = { foo: 1 }
+    expect(isReadonly(obj)).toBe(false)
+    expect(isReadonly(null)).toBe(false)
+
+    const readonlyObj = readonly(obj)
+    expect(isReadonly(readonlyObj)).toBe(true)
   })
 })

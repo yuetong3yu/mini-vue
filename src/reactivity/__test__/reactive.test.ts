@@ -12,6 +12,7 @@ describe('reactive', () => {
 
   it('isReactive', () => {
     expect(isReactive(1)).toBe(false)
+    expect(isReactive(null)).toBe(false)
 
     const obj = { foo: 1 }
     expect(isReactive(obj)).toBe(false)
