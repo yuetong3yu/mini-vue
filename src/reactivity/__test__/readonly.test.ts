@@ -53,4 +53,30 @@ describe('shallowReadonly', () => {
     expect(isReadonly(readonlyObj)).toBe(true)
     expect(isReadonly(readonlyObj.foo)).toBe(false)
   })
+
+  it('when set to first level, expect a warning', () => {
+    console.warn = jest.fn()
+
+    const obj = {
+      foo: {
+        bar: 1,
+      },
+    }
+    const readonlyObj = shallowReadonly(obj)
+    readonlyObj.foo = { bar: 2 }
+    expect(console.warn).toBeCalled()
+  })
+
+  it('when set to deeper level, expect not warning', () => {
+    console.warn = jest.fn()
+
+    const obj = {
+      foo: {
+        bar: 1,
+      },
+    }
+    const readonlyObj = shallowReadonly(obj)
+    readonlyObj.foo.bar = 2
+    expect(console.warn).not.toBeCalled()
+  })
 })
