@@ -29,4 +29,17 @@ describe('ref', () => {
     expect(dummy).toBe(2)
     expect(effectCallTimes).toBe(2)
   })
+
+  test('nested ref', () => {
+    const refObj = ref({
+      foo: 1,
+    })
+    let dummy
+    effect(() => {
+      dummy = refObj.value.foo
+    })
+    expect(dummy).toBe(1)
+    refObj.value.foo = 2
+    expect(dummy).toBe(2)
+  })
 })
