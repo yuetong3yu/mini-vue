@@ -43,3 +43,7 @@ export const ref = (val) => {
 export function isRef(ref) {
   return !!ref[RefInternalKey.isRef]
 }
+
+export function unRef(ref) {
+  return isRef(ref) ? ref.value : ref
+}

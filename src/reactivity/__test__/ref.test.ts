@@ -1,6 +1,6 @@
 import { effect } from '../effect'
 import { reactive } from '../reactive'
-import { isRef, ref } from '../ref'
+import { isRef, ref, unRef } from '../ref'
 
 describe('ref', () => {
   test('should include a `value` property, which equal to original value', () => {
@@ -52,5 +52,17 @@ describe('isRef', () => {
     expect(isRef(2)).toBe(false)
     const reactiveObj = reactive({})
     expect(isRef(reactiveObj)).toBe(false)
+  })
+})
+
+describe('unRef', () => {
+  test('unRef should return the original value', () => {
+    const a = ref(1)
+    expect(isRef(a)).toBe(true)
+    expect(unRef(a)).toBe(1)
+  })
+
+  test('unRef to a non-ref value, should return itself', () => {
+    expect(unRef(1)).toBe(1)
   })
 })
