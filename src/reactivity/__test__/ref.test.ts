@@ -1,6 +1,6 @@
 import { effect } from '../effect'
 import { reactive } from '../reactive'
-import { isRef, ref, unRef } from '../ref'
+import { isRef, proxyRefs, ref, unRef } from '../ref'
 
 describe('ref', () => {
   test('should include a `value` property, which equal to original value', () => {
@@ -65,4 +65,15 @@ describe('unRef', () => {
   test('unRef to a non-ref value, should return itself', () => {
     expect(unRef(1)).toBe(1)
   })
+})
+
+describe('proxyRefs', () => {
+  const user = {
+    age: ref(10),
+    gender: 'male',
+  }
+  const proxyObj = proxyRefs(user)
+  expect(user.age.value).toBe(10)
+  expect(proxyObj.age).toBe(10)
+  expect(proxyObj.gender).toBe('male')
 })
