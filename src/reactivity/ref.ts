@@ -9,7 +9,7 @@ class RefImpl {
 
   constructor(val) {
     this._rawValue = val
-    this._val = isObject(val) ? reactive(val) : val
+    this._val = convertValue(val)
     this.deps = new Set()
   }
 
@@ -22,9 +22,13 @@ class RefImpl {
     if (!hasChanged(newValue, this._rawValue)) return
 
     this._rawValue = newValue
-    this._val = isObject(newValue) ? reactive(newValue) : newValue
+    this._val = convertValue(newValue)
     triggerEffects(this.deps)
   }
+}
+
+function convertValue(value) {
+  return isObject(value) ? reactive(value) : value
 }
 
 export const ref = (val) => {
