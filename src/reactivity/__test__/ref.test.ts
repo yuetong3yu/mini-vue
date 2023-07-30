@@ -68,12 +68,22 @@ describe('unRef', () => {
 })
 
 describe('proxyRefs', () => {
-  const user = {
-    age: ref(10),
-    gender: 'male',
-  }
-  const proxyObj = proxyRefs(user)
-  expect(user.age.value).toBe(10)
-  expect(proxyObj.age).toBe(10)
-  expect(proxyObj.gender).toBe('male')
+  test('basic usage', () => {
+    const user = {
+      age: ref(10),
+      gender: 'male',
+    }
+    const proxyObj = proxyRefs(user)
+    expect(user.age.value).toBe(10)
+    expect(proxyObj.age).toBe(10)
+    expect(proxyObj.gender).toBe('male')
+
+    proxyObj.age = 20
+    expect(proxyObj.age).toBe(20)
+    expect(user.age.value).toBe(20)
+
+    proxyObj.age = ref(30)
+    expect(proxyObj.age).toBe(30)
+    expect(user.age.value).toBe(30)
+  })
 })
