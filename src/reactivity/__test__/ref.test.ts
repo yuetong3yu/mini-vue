@@ -1,5 +1,6 @@
 import { effect } from '../effect'
-import { ref } from '../ref'
+import { reactive } from '../reactive'
+import { isRef, ref } from '../ref'
 
 describe('ref', () => {
   test('should include a `value` property, which equal to original value', () => {
@@ -41,5 +42,15 @@ describe('ref', () => {
     expect(dummy).toBe(1)
     refObj.value.foo = 2
     expect(dummy).toBe(2)
+  })
+})
+
+describe('isRef', () => {
+  test('should only return ref to true', () => {
+    const a = ref(1)
+    expect(isRef(a)).toBe(true)
+    expect(isRef(2)).toBe(false)
+    const reactiveObj = reactive({})
+    expect(isRef(reactiveObj)).toBe(false)
   })
 })

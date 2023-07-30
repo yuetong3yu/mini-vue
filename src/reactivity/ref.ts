@@ -2,10 +2,15 @@ import { hasChanged, isObject } from '../shared'
 import { trackEffects, triggerEffects } from './effect'
 import { reactive } from './reactive'
 
+export enum RefInternalKey {
+  isRef = '__is_ref',
+}
+
 class RefImpl {
   private _val: any
   private _rawValue: any
   public deps: Set<any>
+  private [RefInternalKey.isRef] = true
 
   constructor(val) {
     this._rawValue = val
@@ -33,4 +38,8 @@ function convertValue(value) {
 
 export const ref = (val) => {
   return new RefImpl(val)
+}
+
+export function isRef(ref) {
+  return !!ref[RefInternalKey.isRef]
 }
