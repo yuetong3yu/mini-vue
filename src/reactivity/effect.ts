@@ -3,13 +3,13 @@ import { extend } from '../shared'
 let activeEffect: ReactiveEffect | null
 let shouldTrack: boolean | null
 
-class ReactiveEffect {
+export class ReactiveEffect {
   private readonly _fn: Function
   deps: Set<any>[] = []
   isCleanup: boolean = false
   onStop?: () => void
 
-  constructor(fn, public schedular) {
+  constructor(fn, public schedular?) {
     this._fn = fn
   }
 

@@ -26,5 +26,12 @@ describe('computed', () => {
     // should not call again, if value doesn't change
     computedValue.value
     expect(getter).toBeCalledTimes(1)
+
+    // should not call again, until access computed value
+    user.age = 2
+    expect(getter).toBeCalledTimes(1)
+
+    expect(computedValue.value).toBe(2)
+    expect(getter).toBeCalledTimes(2)
   })
 })
