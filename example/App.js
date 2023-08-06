@@ -1,3 +1,5 @@
+import { h } from '../lib/mini-vue.esm.js'
+
 export function App() {
   return {
     render() {

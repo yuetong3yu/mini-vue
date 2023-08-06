@@ -38,7 +38,7 @@ function finishComponentSetup(instance: any) {
   const component = instance.type
   const { render } = component
 
-  if (!component.render) {
-    instance.render = render
-  }
+  instance.render = render
+  // if (component.render) {
+  // }
 }
